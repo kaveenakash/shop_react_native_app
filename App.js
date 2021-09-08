@@ -1,21 +1,53 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { createStore, combineReducers } from "redux";
+import { Provider } from "react-redux";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import ProductOverviewScreen from "./screens/shop/ProductsOverviewScreen";
+import { Platform } from "react-native";
+
+import productsReducer from "./store/reducers/products-reducer";
+import Colors from "./constants/Colors";
+
+const rootReducer = combineReducers({
+  products: productsReducer,
+});
+const store = createStore(rootReducer);
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Product Overview"
+            component={ProductOverviewScreen}
+            options={{
+              title: "All Products",
+              headerStyle: {
+                backgroundColor:
+                  Platform.OS === "android" ? Colors.primary : "",
+              },
+              headerTintColor:
+                Platform.OS === "android" ? "white" : Colors.primary,
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
