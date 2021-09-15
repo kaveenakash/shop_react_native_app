@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ProductOverviewScreen from "./screens/shop/ProductsOverviewScreen";
+import ProductDetailScreen from './screens/shop/ProductDetailScreen'
 import { Platform } from "react-native";
 
 import productsReducer from "./store/reducers/products-reducer";
@@ -36,6 +37,22 @@ export default function App() {
                 fontWeight: "bold",
               },
             }}
+          />
+          <Stack.Screen
+            name="ProductDetail"
+            component={ProductDetailScreen}
+            options={({route}) => ({
+              title: route.params.title,
+              headerStyle: {
+                backgroundColor:
+                  Platform.OS === "android" ? Colors.primary : "",
+              },
+              headerTintColor:
+                Platform.OS === "android" ? "white" : Colors.primary,
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            })}
           />
         </Stack.Navigator>
       </NavigationContainer>
